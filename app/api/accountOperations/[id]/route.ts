@@ -3,11 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOptions";
 
-export async function DELETE(
-  request: NextRequest,
-  context: { params: { id: string } }
-) {
-  const { id } = context.params;
+// The correct export signature doesn't need a second argument, or the params might be directly destructured
+export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+  const { id } = params;
 
   const session = await getServerSession(authOptions);
   if (!session || !session.user?.email)
