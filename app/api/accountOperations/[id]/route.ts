@@ -5,8 +5,10 @@ import authOptions from "@/app/auth/authOptions";
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
+  const { id } = context.params;
+
   const session = await getServerSession(authOptions);
   if (!session || !session.user?.email)
     return NextResponse.json({}, { status: 401 });
@@ -16,13 +18,13 @@ export async function DELETE(
   });
   if (!user) return NextResponse.json({}, { status: 401 });
 
-  const id = parseInt(params.id);
-  if (isNaN(id)) {
+  const parsedId = parseInt(id);
+  if (isNaN(parsedId)) {
     return NextResponse.json({ error: "Invalid ID." }, { status: 400 });
   }
 
   const accountOperation = await prisma.accountOperation.findUnique({
-    where: { id, userId: user.id },
+    where: { id: parsedId, userId: user.id },
   });
 
   if (!accountOperation)
