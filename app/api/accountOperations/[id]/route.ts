@@ -16,34 +16,42 @@ export async function DELETE(
   });
   if (!user) return NextResponse.json({}, { status: 401 });
 
+  const id = parseInt(params.id);
+  if (isNaN(id)) {
+    return NextResponse.json({ error: "Invalid ID." }, { status: 400 });
+  }
+
   const accountOperation = await prisma.accountOperation.findUnique({
-    where: { id: parseInt(params.id), userId: user.id },
+    where: { id, userId: user.id },
   });
 
   if (!accountOperation)
     return NextResponse.json(
-      { error: "Inavalid AccountOperation." },
+      { error: "Invalid Account Operation." },
       { status: 404 }
     );
 
   const generalAccount = await prisma.generalAccount.findUnique({
     where: { id: accountOperation.generalAccountId },
   });
+
   if (!generalAccount)
     return NextResponse.json(
-      { error: "Inavalid AccountOperation." },
+      { error: "Invalid General Account." },
       { status: 404 }
     );
+
+  // Safely parse debitSold and creditSold
+  const debitSold = parseFloat(generalAccount.debitSold?.toString() || '0');
+  const creditSold = parseFloat(generalAccount.creditSold?.toString() || '0');
+  const debitSoldOperation = parseFloat(accountOperation.debitSold?.toString() || '0');
+  const creditSoldOperation = parseFloat(accountOperation.creditSold?.toString() || '0');
 
   await prisma.generalAccount.update({
     where: { id: generalAccount.id },
     data: {
-      debitSold:
-        parseFloat(generalAccount.debitSold.toString()) -
-        parseFloat(accountOperation.debitSold.toString()),
-      creditSold:
-        parseFloat(generalAccount.creditSold.toString()) -
-        parseFloat(accountOperation.creditSold.toString()),
+      debitSold: debitSold - debitSoldOperation,
+      creditSold: creditSold - creditSoldOperation,
     },
   });
 
@@ -55,12 +63,8 @@ export async function DELETE(
       await prisma.tiereAccount.update({
         where: { id: tiereAccount.id },
         data: {
-          debitSold:
-            parseFloat(tiereAccount.debitSold.toString()) -
-            parseFloat(accountOperation.debitSold.toString()),
-          creditSold:
-            parseFloat(tiereAccount.creditSold.toString()) -
-            parseFloat(accountOperation.creditSold.toString()),
+          debitSold: parseFloat(tiereAccount.debitSold?.toString() || '0') - debitSoldOperation,
+          creditSold: parseFloat(tiereAccount.creditSold?.toString() || '0') - creditSoldOperation,
         },
       });
     }
