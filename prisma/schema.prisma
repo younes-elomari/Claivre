@@ -1,0 +1,141 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id               String             @id @default(cuid())
+  name             String?
+  username         String?            @unique
+  email            String?            @unique
+  hashedPassword   String
+  emailVerified    DateTime?
+  image            String?
+  accounts         Account[]
+  sessions         Session[]
+  product          Product[]
+  productOparation ProductOperation[]
+  generalAccount   GeneralAccount[]
+  tiereAccount     TiereAccount[]
+  accountOperation AccountOperation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  id                       String  @id @default(cuid())
+  userId                   String  @unique
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String? @db.Text
+  access_token             String? @db.Text
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String? @db.Text
+  session_state            String?
+  refresh_token_expires_in Int?
+  user                     User?   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Product {
+  id               Int                @id @default(autoincrement())
+  name             String             @db.VarChar(255)
+  unit             String             @db.VarChar(255)
+  stock            Decimal            @default(0) @db.Decimal(9, 2)
+  purchasePrice    Decimal            @default(0) @db.Decimal(12, 2)
+  ProductOperation ProductOperation[]
+  userId           String             
+  user             User               @relation(fields: [userId], references: [id])
+}
+
+model ProductOperation {
+  id               Int      @id @default(autoincrement())
+  date             DateTime @default(now())
+  unitPrice        Decimal  @default(0) @db.Decimal(9, 2)
+  purchaseQuantity Decimal  @default(0) @db.Decimal(9, 2)
+  purchasePrice    Decimal  @default(0) @db.Decimal(12, 2)
+  saleQuantity     Decimal  @default(0) @db.Decimal(9, 2)
+  salePrice        Decimal  @default(0) @db.Decimal(12, 2)
+  productId        Int
+  product          Product  @relation(fields: [productId], references: [id])
+  userId           String   
+  user             User     @relation(fields: [userId], references: [id])
+}
+
+model GeneralAccount {
+  id               Int                @id @default(autoincrement())
+  name             String             @db.VarChar(255)
+  debitSold        Decimal            @default(0) @db.Decimal(12, 2)
+  creditSold       Decimal            @default(0) @db.Decimal(12, 2)
+  TiereAccount     TiereAccount[]
+  AccountOperation AccountOperation[]
+  userId           String             
+  user             User               @relation(fields: [userId], references: [id])
+}
+
+model TiereAccount {
+  id               Int                @id @default(autoincrement())
+  name             String             @db.VarChar(255)
+  debitSold        Decimal            @default(0) @db.Decimal(12, 2)
+  creditSold       Decimal            @default(0) @db.Decimal(12, 2)
+  email            String?            @unique
+  address          String?            @db.Text
+  phone            String?            @db.VarChar(255)
+  generalAccountId Int
+  generalAccount   GeneralAccount     @relation(fields: [generalAccountId], references: [id])
+  AccountOperation AccountOperation[]
+  userId           String             
+  user             User               @relation(fields: [userId], references: [id])
+}
+
+model AccountOperation {
+  id               Int            @id @default(autoincrement())
+  date             DateTime       @default(now())
+  debitSold        Decimal        @default(0) @db.Decimal(12, 2)
+  creditSold       Decimal        @default(0) @db.Decimal(12, 2)
+  lebelle          String?        @db.VarChar(255)
+  generalAccountId Int
+  generalAccount   GeneralAccount @relation(fields: [generalAccountId], references: [id])
+  tiereAccountId   Int?
+  tiereAccount     TiereAccount?  @relation(fields: [tiereAccountId], references: [id])
+  userId           String         
+  user             User           @relation(fields: [userId], references: [id])
+}
