@@ -97,7 +97,7 @@ const RegisterForm = () => {
         </div>
 
         <Button disabled={isSubmitting}>
-          <Text className="cursor-pointer">S'inscrire</Text>
+          <Text className="cursor-pointer">S&apos;inscrire</Text>
           {isSubmitting && <Spinner />}
         </Button>
       </form>
