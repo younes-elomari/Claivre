@@ -11,7 +11,7 @@ const NewAccountOperationPage = async () => {
     <Card>
       {generalAccountsCount === 0 && (
         <Callout.Root color="red" className="mb-5">
-          <Callout.Text>D'abord, tu doit créer un compte général.</Callout.Text>
+          <Callout.Text>D&apos;abord, tu doit créer un compte général.</Callout.Text>
         </Callout.Root>
       )}
       <Flex direction="column" gap="6">

@@ -46,7 +46,7 @@ const RegisterForm = () => {
       <form className="space-y-5" onSubmit={onSubmit}>
         <div>
           <Text size="3" className="font-medium">
-            Nom d'utilisateur:
+            Nom d&apos;utilisateur:
           </Text>
           <TextField.Root
             type="text"

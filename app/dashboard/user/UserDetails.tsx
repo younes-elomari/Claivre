@@ -11,7 +11,7 @@ const UserDetails = ({ user }: Props) => {
     <Card>
       <Flex direction="column" gap="4" p="2">
         <Text className="text-gray-800 font-medium">
-          Nom d'utilisateur: <span className="text-gray-600">{user.username}</span>
+          Nom d&apos;utilisateur: <span className="text-gray-600">{user.username}</span>
         </Text>
         <Text className="text-gray-800 font-medium">
           Email: <span className="text-gray-600">{user.email}</span>

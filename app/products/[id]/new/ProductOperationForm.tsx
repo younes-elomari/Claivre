@@ -121,7 +121,7 @@ const ProductOperationForm = () => {
         </div>
         <div>
           <Text size="3" className="font-medium">
-            Quantité d'achat:
+            Quantité d&apos;achat:
           </Text>
           <TextField.Root
             type="number"
