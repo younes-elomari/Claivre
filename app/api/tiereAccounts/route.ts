@@ -61,8 +61,8 @@ export async function POST(request: NextRequest) {
       userId: user.id,
       generalAccountId: parseInt(body.generalAccountId),
       name: body.name,
-      debitSold: parseFloat(body.debitSold),
-      creditSold: parseFloat(body.creditSold),
+      debitSold: body.debitSold,
+      creditSold: body.creditSold,
       email: body.email,
       phone: body.phone,
       address: body.address,
@@ -72,12 +72,8 @@ export async function POST(request: NextRequest) {
   await prisma.generalAccount.update({
     where: { id: generalAccount.id },
     data: {
-      debitSold:
-        parseFloat(generalAccount.debitSold.toString()) +
-        parseFloat(newTiereAccount.debitSold.toString()),
-      creditSold:
-        parseFloat(generalAccount.creditSold.toString()) +
-        parseFloat(newTiereAccount.creditSold.toString()),
+      debitSold: generalAccount.debitSold + newTiereAccount.debitSold,
+      creditSold: generalAccount.creditSold + newTiereAccount.creditSold,
     },
   });
 

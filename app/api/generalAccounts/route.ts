@@ -41,8 +41,8 @@ export async function POST(request: NextRequest) {
     data: {
       userId: user.id,
       name: body.name,
-      debitSold: parseFloat(body.debitSold),
-      creditSold: parseFloat(body.creditSold),
+      debitSold: body.debitSold,
+      creditSold: body.creditSold,
     },
   });
 

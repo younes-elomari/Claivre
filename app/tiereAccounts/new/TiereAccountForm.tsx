@@ -55,7 +55,6 @@ const TiereAccountForm = () => {
     } catch (error) {
       setSubmitting(false);
       setError("Une erreur inattendue s'est produite.");
-
     }
   });
 

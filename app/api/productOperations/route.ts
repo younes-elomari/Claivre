@@ -31,25 +31,25 @@ export async function POST(request: NextRequest) {
       userId: user.id,
       productId: parseInt(body.productId),
       date: body.date,
-      unitPrice: parseFloat(body.unitPrice),
-      purchaseQuantity: parseFloat(body.purchaseQuantity),
-      purchasePrice: parseFloat(body.purchasePrice),
-      saleQuantity: parseFloat(body.saleQuantity),
-      salePrice: parseFloat(body.salePrice),
+      unitPrice: body.unitPrice,
+      purchaseQuantity: body.purchaseQuantity,
+      purchasePrice: body.purchasePrice,
+      saleQuantity: body.saleQuantity,
+      salePrice: body.salePrice,
     },
   });
 
   await prisma.product.update({
     where: { id: product.id },
     data: {
-      purchasePrice:
-        parseFloat(product.purchasePrice.toString()) +
-        parseFloat(newProductOperation.purchasePrice.toString()) -
-        parseFloat(newProductOperation.salePrice.toString()),
-      stock:
-        parseFloat(product.stock.toString()) +
-        parseFloat(newProductOperation.purchaseQuantity.toString()) -
-        parseFloat(newProductOperation.saleQuantity.toString()),
+      purchasePrice:        
+        product.purchasePrice +        
+        newProductOperation.purchasePrice -        
+        newProductOperation.salePrice,
+      stock:        
+        product.stock +        
+        newProductOperation.purchaseQuantity -        
+        newProductOperation.saleQuantity,
     },
   });
 

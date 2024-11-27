@@ -124,8 +124,7 @@ const ProductOperationForm = () => {
             Quantité d&apos;achat:
           </Text>
           <TextField.Root
-            type="number"
-            step="0.01"
+            type="number"            
             placeholder="quantité d'achat"
             className="mt-2"
             {...register("purchaseQuantity")}
@@ -140,8 +139,7 @@ const ProductOperationForm = () => {
             Prix d&apos;achat:
           </Text>
           <TextField.Root
-            type="number"
-            step="0.01"
+            type="number"            
             placeholder="prix d'achat"
             className="mt-2"
             {...register("purchasePrice")}
@@ -156,8 +154,7 @@ const ProductOperationForm = () => {
             Quantité de vente:
           </Text>
           <TextField.Root
-            type="number"
-            step="0.01"
+            type="number"            
             placeholder="quantité de vente"
             className="mt-2"
             {...register("saleQuantity")}
@@ -172,8 +169,7 @@ const ProductOperationForm = () => {
             Prix de vente:
           </Text>
           <TextField.Root
-            type="number"
-            step="0.01"
+            type="number"            
             placeholder="prix de vente"
             className="mt-2"
             {...register("salePrice")}
@@ -189,8 +185,7 @@ const ProductOperationForm = () => {
           </Text>
           <TextField.Root
             value={calculateUnitPrice()}
-            type="number"
-            step="0.01"
+            type="number"            
             placeholder="prix unitaire"
             className="mt-2"
             {...register("unitPrice")}

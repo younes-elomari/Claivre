@@ -41,8 +41,8 @@ export async function POST(request: NextRequest) {
       userId: user.id,
       name: body.name,
       unit: body.unit,
-      stock: parseFloat(body.stock),
-      purchasePrice: parseFloat(body.purchasePrice),
+      stock: body.stock,
+      purchasePrice: body.purchasePrice,
     },
   });
 

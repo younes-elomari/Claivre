@@ -62,8 +62,7 @@ const GeneralAccountForm = () => {
             Sold débiteur:
           </Text>
           <TextField.Root
-            type="number"
-            step="0.01"
+            type="number"            
             placeholder="sold débiteur"
             className="mt-2"
             {...register("debitSold")}
@@ -75,8 +74,7 @@ const GeneralAccountForm = () => {
             Sold créditeur:
           </Text>
           <TextField.Root
-            type="number"
-            step="0.01"
+            type="number"            
             placeholder="sold créditeur"
             className="mt-2"
             {...register("creditSold")}

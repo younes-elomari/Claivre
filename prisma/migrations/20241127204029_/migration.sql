@@ -67,8 +67,8 @@ CREATE TABLE `Product` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
     `unit` VARCHAR(255) NOT NULL,
-    `stock` DECIMAL(9, 2) NOT NULL DEFAULT 0,
-    `purchasePrice` DECIMAL(12, 2) NOT NULL DEFAULT 0,
+    `stock` INTEGER NOT NULL DEFAULT 0,
+    `purchasePrice` INTEGER NOT NULL DEFAULT 0,
     `userId` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -78,11 +78,11 @@ CREATE TABLE `Product` (
 CREATE TABLE `ProductOperation` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `date` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `unitPrice` DECIMAL(9, 2) NOT NULL DEFAULT 0,
-    `purchaseQuantity` DECIMAL(9, 2) NOT NULL DEFAULT 0,
-    `purchasePrice` DECIMAL(12, 2) NOT NULL DEFAULT 0,
-    `saleQuantity` DECIMAL(9, 2) NOT NULL DEFAULT 0,
-    `salePrice` DECIMAL(12, 2) NOT NULL DEFAULT 0,
+    `unitPrice` INTEGER NOT NULL DEFAULT 0,
+    `purchaseQuantity` INTEGER NOT NULL DEFAULT 0,
+    `purchasePrice` INTEGER NOT NULL DEFAULT 0,
+    `saleQuantity` INTEGER NOT NULL DEFAULT 0,
+    `salePrice` INTEGER NOT NULL DEFAULT 0,
     `productId` INTEGER NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
 
@@ -93,8 +93,8 @@ CREATE TABLE `ProductOperation` (
 CREATE TABLE `GeneralAccount` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
-    `debitSold` DECIMAL(12, 2) NOT NULL DEFAULT 0,
-    `creditSold` DECIMAL(12, 2) NOT NULL DEFAULT 0,
+    `debitSold` INTEGER NOT NULL DEFAULT 0,
+    `creditSold` INTEGER NOT NULL DEFAULT 0,
     `userId` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -104,8 +104,8 @@ CREATE TABLE `GeneralAccount` (
 CREATE TABLE `TiereAccount` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
-    `debitSold` DECIMAL(12, 2) NOT NULL DEFAULT 0,
-    `creditSold` DECIMAL(12, 2) NOT NULL DEFAULT 0,
+    `debitSold` INTEGER NOT NULL DEFAULT 0,
+    `creditSold` INTEGER NOT NULL DEFAULT 0,
     `email` VARCHAR(191) NULL,
     `address` TEXT NULL,
     `phone` VARCHAR(255) NULL,
@@ -120,8 +120,8 @@ CREATE TABLE `TiereAccount` (
 CREATE TABLE `AccountOperation` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `date` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `debitSold` DECIMAL(12, 2) NOT NULL DEFAULT 0,
-    `creditSold` DECIMAL(12, 2) NOT NULL DEFAULT 0,
+    `debitSold` INTEGER NOT NULL DEFAULT 0,
+    `creditSold` INTEGER NOT NULL DEFAULT 0,
     `lebelle` VARCHAR(255) NULL,
     `generalAccountId` INTEGER NOT NULL,
     `tiereAccountId` INTEGER NULL,

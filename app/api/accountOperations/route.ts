@@ -34,8 +34,8 @@ export async function POST(request: NextRequest) {
       generalAccountId: parseInt(body.generalAccountId),
       tiereAccountId: parseInt(body.tiereAccountId),
       date: body.date,
-      debitSold: parseFloat(body.debitSold),
-      creditSold: parseFloat(body.creditSold),
+      debitSold: body.debitSold,
+      creditSold: body.creditSold,
       lebelle: body.lebelle,
     },
   });
@@ -44,11 +44,11 @@ export async function POST(request: NextRequest) {
     where: { id: newAccountOperation.generalAccountId },
     data: {
       debitSold:
-        parseFloat(generalAccount.debitSold.toString()) +
-        parseFloat(newAccountOperation.debitSold.toString()),
+        generalAccount.debitSold+
+        newAccountOperation.debitSold,
       creditSold:
-        parseFloat(generalAccount.creditSold.toString()) +
-        parseFloat(newAccountOperation.creditSold.toString()),
+        generalAccount.creditSold +
+        newAccountOperation.creditSold,
     },
   });
 
@@ -61,11 +61,11 @@ export async function POST(request: NextRequest) {
         where: { id: tiereAccount.id },
         data: {
           debitSold:
-            parseFloat(tiereAccount.debitSold.toString()) +
-            parseFloat(newAccountOperation.debitSold.toString()),
+            tiereAccount.debitSold +
+            newAccountOperation.debitSold,
           creditSold:
-            parseFloat(tiereAccount.creditSold.toString()) +
-            parseFloat(newAccountOperation.creditSold.toString()),
+            tiereAccount.creditSold +
+            newAccountOperation.creditSold,
         },
       });
   }

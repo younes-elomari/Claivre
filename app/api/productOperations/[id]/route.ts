@@ -37,13 +37,13 @@ export async function DELETE(
     where: { id: productOperation.productId },
     data: {
       purchasePrice:
-        parseFloat(product.purchasePrice.toString()) -
-        parseFloat(productOperation.purchasePrice.toString()) +
-        parseFloat(productOperation.salePrice.toString()),
+        product.purchasePrice -
+        productOperation.purchasePrice +
+        productOperation.salePrice,
       stock:
-        parseFloat(product.stock.toString()) -
-        parseFloat(productOperation.purchaseQuantity.toString()) +
-        parseFloat(productOperation.saleQuantity.toString()),
+        product.stock -
+        productOperation.purchaseQuantity +
+        productOperation.saleQuantity,
     },
   });
 

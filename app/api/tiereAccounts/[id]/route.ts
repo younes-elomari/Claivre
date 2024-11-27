@@ -39,12 +39,8 @@ export async function DELETE(
   await prisma.generalAccount.update({
     where: { id: tiereAccount.generalAccountId },
     data: {
-      debitSold:
-        parseFloat(generalAccount.debitSold.toString()) -
-        parseFloat(tiereAccount.debitSold.toString()),
-      creditSold:
-        parseFloat(generalAccount.creditSold.toString()) -
-        parseFloat(tiereAccount.creditSold.toString()),
+      debitSold: generalAccount.debitSold - tiereAccount.debitSold,
+      creditSold: generalAccount.creditSold - tiereAccount.creditSold,
     },
   });
 

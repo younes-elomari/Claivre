@@ -79,8 +79,8 @@ model Product {
   id               Int                @id @default(autoincrement())
   name             String             @db.VarChar(255)
   unit             String             @db.VarChar(255)
-  stock            Decimal            @default(0) @db.Decimal(9, 2)
-  purchasePrice    Decimal            @default(0) @db.Decimal(12, 2)
+  stock            Int            @default(0) 
+  purchasePrice    Int            @default(0) 
   ProductOperation ProductOperation[]
   userId           String             
   user             User               @relation(fields: [userId], references: [id])
@@ -89,11 +89,11 @@ model Product {
 model ProductOperation {
   id               Int      @id @default(autoincrement())
   date             DateTime @default(now())
-  unitPrice        Decimal  @default(0) @db.Decimal(9, 2)
-  purchaseQuantity Decimal  @default(0) @db.Decimal(9, 2)
-  purchasePrice    Decimal  @default(0) @db.Decimal(12, 2)
-  saleQuantity     Decimal  @default(0) @db.Decimal(9, 2)
-  salePrice        Decimal  @default(0) @db.Decimal(12, 2)
+  unitPrice        Int  @default(0) 
+  purchaseQuantity Int  @default(0) 
+  purchasePrice    Int  @default(0) 
+  saleQuantity     Int  @default(0) 
+  salePrice        Int  @default(0) 
   productId        Int
   product          Product  @relation(fields: [productId], references: [id])
   userId           String   
@@ -103,8 +103,8 @@ model ProductOperation {
 model GeneralAccount {
   id               Int                @id @default(autoincrement())
   name             String             @db.VarChar(255)
-  debitSold        Decimal            @default(0) @db.Decimal(12, 2)
-  creditSold       Decimal            @default(0) @db.Decimal(12, 2)
+  debitSold        Int            @default(0) 
+  creditSold       Int            @default(0) 
   TiereAccount     TiereAccount[]
   AccountOperation AccountOperation[]
   userId           String             
@@ -114,8 +114,8 @@ model GeneralAccount {
 model TiereAccount {
   id               Int                @id @default(autoincrement())
   name             String             @db.VarChar(255)
-  debitSold        Decimal            @default(0) @db.Decimal(12, 2)
-  creditSold       Decimal            @default(0) @db.Decimal(12, 2)
+  debitSold        Int            @default(0) 
+  creditSold       Int            @default(0) 
   email            String?            @unique
   address          String?            @db.Text
   phone            String?            @db.VarChar(255)
@@ -129,8 +129,8 @@ model TiereAccount {
 model AccountOperation {
   id               Int            @id @default(autoincrement())
   date             DateTime       @default(now())
-  debitSold        Decimal        @default(0) @db.Decimal(12, 2)
-  creditSold       Decimal        @default(0) @db.Decimal(12, 2)
+  debitSold        Int        @default(0) 
+  creditSold       Int        @default(0) 
   lebelle          String?        @db.VarChar(255)
   generalAccountId Int
   generalAccount   GeneralAccount @relation(fields: [generalAccountId], references: [id])

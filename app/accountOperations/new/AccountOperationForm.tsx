@@ -180,8 +180,7 @@ const AccountOperationForm = ({ generalAccount, tiereAccount }: Props) => {
           </Text>
           <TextField.Root
             type="number"
-            placeholder="Sold débiteur."
-            step="0.01"
+            placeholder="Sold débiteur."            
             className="mt-2"
             {...register("debitSold")}
             disabled={watch("creditSold") ? true : false}
@@ -194,8 +193,7 @@ const AccountOperationForm = ({ generalAccount, tiereAccount }: Props) => {
           </Text>
           <TextField.Root
             type="number"
-            placeholder="Sold créditeur."
-            step="0.01"
+            placeholder="Sold créditeur."            
             className="mt-2"
             {...register("creditSold")}
             disabled={watch("debitSold") ? true : false}
