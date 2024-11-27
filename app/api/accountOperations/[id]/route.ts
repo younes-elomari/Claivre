@@ -38,12 +38,8 @@ export async function DELETE(
   await prisma.generalAccount.update({
     where: { id: generalAccount.id },
     data: {
-      debitSold:      
-        generalAccount?.debitSold -
-        accountOperation?.debitSold,
-      creditSold:
-        generalAccount?.creditSold -
-        accountOperation?.creditSold,
+      debitSold: generalAccount?.debitSold - accountOperation?.debitSold,
+      creditSold: generalAccount?.creditSold - accountOperation?.creditSold,
     },
   });
 
@@ -55,12 +51,8 @@ export async function DELETE(
       await prisma.tiereAccount.update({
         where: { id: tiereAccount.id },
         data: {
-          debitSold:
-            tiereAccount?.debitSold -
-            accountOperation?.debitSold,
-          creditSold:
-            tiereAccount?.creditSold -
-            accountOperation?.creditSold,
+          debitSold: tiereAccount?.debitSold - accountOperation?.debitSold,
+          creditSold: tiereAccount?.creditSold - accountOperation?.creditSold,
         },
       });
     }
