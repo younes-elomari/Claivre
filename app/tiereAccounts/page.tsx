@@ -11,11 +11,11 @@ import { getTiereAccountCount } from "../_utils/tiereAccount/getTiereAccountCoun
 import { Metadata } from "next";
 
 interface Props {
-  searchParams: { generalAccountId: string; page: string; name: string };
+  searchParams: Promise<{ generalAccountId: string; page: string; name: string }>;
 }
 
 const TiereAccountsPage = async ({ searchParams }: Props) => {
-  const page = parseInt(searchParams.page) || 1;
+  const page = parseInt((await searchParams).page) || 1;
   const pageSize = 10;
 
   const generalAccounts = await getGeneralAccounts();
@@ -24,21 +24,21 @@ const TiereAccountsPage = async ({ searchParams }: Props) => {
     .map((account) => account.id)
     .value();
 
-  const generalAccountId = ids.includes(parseInt(searchParams.generalAccountId))
-    ? parseInt(searchParams.generalAccountId)
+  const generalAccountId = ids.includes(parseInt((await searchParams).generalAccountId))
+    ? parseInt((await searchParams).generalAccountId)
     : undefined;
 
   const paginatedTiereAccounts = await getPaginatedTiereAccounts(
     generalAccountId,
     page,
     pageSize,
-    searchParams.name,
+    (await searchParams).name,
     "asc"
   );
 
   const tiereAccountCount = await getTiereAccountCount(
     generalAccountId,
-    searchParams.name
+    (await searchParams).name
   );
 
   const generalAccountsForSelect = generalAccounts.map((account) => ({

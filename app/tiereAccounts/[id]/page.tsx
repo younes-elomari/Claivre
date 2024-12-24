@@ -10,18 +10,17 @@ import { getTiereAccount } from "@/app/_utils/tiereAccount/getTiereAccount";
 import { getGeneralAccount } from "@/app/_utils/generalAccount/getGeneralAccount";
 import { getPaginatedAccountOperations } from "@/app/_utils/accountOperation/getPaginatedAccountOperations";
 import { getAccountOperations } from "@/app/_utils/accountOperation/getAccountOperations";
-import prisma from "@/prisma/client";
 
 interface Props {
-  params: { id: string };
-  searchParams: { page: string };
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ page: string }>;
 }
 
 const TiereAccountDetailsPage = async ({ params, searchParams }: Props) => {
-  const page = parseInt(searchParams.page) || 1;
+  const page = parseInt((await searchParams).page) || 1;
   const pageSize = 10;
 
-  const tiereAccount = await getTiereAccount(params.id);
+  const tiereAccount = await getTiereAccount((await params).id);
 
   if (!tiereAccount) return null;
 
@@ -94,7 +93,7 @@ const TiereAccountDetailsPage = async ({ params, searchParams }: Props) => {
 };
 
 export async function generateMetadata({ params }: Props) {
-  const tiereAccount = await getTiereAccount(params.id);
+  const tiereAccount = await getTiereAccount((await params).id);
 
   return {
     title: tiereAccount?.name,

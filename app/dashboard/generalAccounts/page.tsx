@@ -9,18 +9,18 @@ import { Metadata } from "next";
 const DashboardGeneralAccountsPage = async ({
   searchParams,
 }: {
-  searchParams: { page: string; name: string };
+  searchParams: Promise<{ page: string; name: string }>;
 }) => {
-  const page = parseInt(searchParams.page) || 1;
+  const page = parseInt((await searchParams).page) || 1;
   const pageSize = 10;
 
   const generalAccounts = await getPaginatedGeneralAccounts(
     page,
     pageSize,
-    searchParams.name
+    (await searchParams).name
   );
 
-  const generalAccountCount = await getGeneralAccountsCount(searchParams.name);
+  const generalAccountCount = await getGeneralAccountsCount((await searchParams).name);
 
   return (
     <Card>

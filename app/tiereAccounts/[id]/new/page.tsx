@@ -1,15 +1,13 @@
-import React from "react";
 import { Card, Flex, Heading } from "@radix-ui/themes";
 import AccountOperationForm from "@/app/accountOperations/new/AccountOperationForm";
 import { getTiereAccount } from "@/app/_utils/tiereAccount/getTiereAccount";
-import prisma from "@/prisma/client";
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 const NewTiereAccountOperationPage = async ({ params }: Props) => {
-  const tiereAccount = await getTiereAccount(params.id);
+  const tiereAccount = await getTiereAccount((await params).id);
 
   return (
     <Card>
@@ -22,7 +20,7 @@ const NewTiereAccountOperationPage = async ({ params }: Props) => {
 };
 
 export async function generateMetadata({ params }: Props) {
-  const tiereAccount = await getTiereAccount(params.id);
+  const tiereAccount = await getTiereAccount((await params).id);
 
   return {
     title: "ajouter une opération pour " + tiereAccount?.name,

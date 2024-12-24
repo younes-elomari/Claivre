@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOptions";
 
-export async function POST(request: NextRequest) {
+export const POST = async (request: NextRequest) => {
   const session = await getServerSession(authOptions);
   if (!session || !session.user?.email)
     return NextResponse.json({}, { status: 401 });
@@ -42,16 +42,16 @@ export async function POST(request: NextRequest) {
   await prisma.product.update({
     where: { id: product.id },
     data: {
-      purchasePrice:        
-        product.purchasePrice +        
-        newProductOperation.purchasePrice -        
+      purchasePrice:
+        product.purchasePrice +
+        newProductOperation.purchasePrice -
         newProductOperation.salePrice,
-      stock:        
-        product.stock +        
-        newProductOperation.purchaseQuantity -        
+      stock:
+        product.stock +
+        newProductOperation.purchaseQuantity -
         newProductOperation.saleQuantity,
     },
   });
 
   return NextResponse.json(newProductOperation, { status: 201 });
-}
+};

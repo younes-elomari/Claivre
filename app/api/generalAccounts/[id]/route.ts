@@ -3,10 +3,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOptions";
 
-export async function DELETE(
+export const DELETE = async (
   request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+  { params }: { params: Promise<{ id: string }> }
+) => {
   const session = await getServerSession(authOptions);
   if (!session || !session.user?.email)
     return NextResponse.json({}, { status: 401 });
@@ -17,7 +17,7 @@ export async function DELETE(
   if (!user) return NextResponse.json({}, { status: 401 });
 
   const generalAccount = await prisma.generalAccount.findUnique({
-    where: { id: parseInt(params.id), userId: user.id },
+    where: { id: parseInt((await params).id), userId: user.id },
   });
   if (!generalAccount)
     return NextResponse.json(
@@ -38,4 +38,4 @@ export async function DELETE(
   });
 
   return NextResponse.json({});
-}
+};

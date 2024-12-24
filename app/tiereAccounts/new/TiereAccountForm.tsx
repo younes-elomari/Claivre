@@ -4,7 +4,6 @@ import {
   Button,
   Callout,
   Flex,
-  Select,
   Text,
   TextField,
 } from "@radix-ui/themes";

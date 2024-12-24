@@ -19,6 +19,7 @@ const DashboardUserPage = async () => {
   const user = await prisma.user.findUnique({
     where: { email: session.user?.email },
   });
+
   if (!user)
     return (
       <Button variant="outline">

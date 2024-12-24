@@ -36,22 +36,20 @@ const DeleteAccountOperationButton = ({
           </Button>
         </AlertDialog.Trigger>
         <AlertDialog.Content>
-          <AlertDialog.Title>Confirm Deletion</AlertDialog.Title>
+          <AlertDialog.Title>Confirmer la suppression</AlertDialog.Title>
           <AlertDialog.Description>
-            <Text size="3" className="font-medium text-gray-600">
-              Are you sure you want to delete this operation? This action cannot
-              be undone.
-            </Text>
+            Êtes-vous sûr de vouloir supprimer cet élément ? Cette action est
+            irréversible.
           </AlertDialog.Description>
           <Flex mt="4" gap="3">
             <AlertDialog.Cancel>
               <Button variant="soft" color="gray">
-                Cancel
+                Annuler
               </Button>
             </AlertDialog.Cancel>
             <AlertDialog.Action>
               <Button color="red" onClick={deleteIssue}>
-                Delete
+                Supprimer
               </Button>
             </AlertDialog.Action>
           </Flex>

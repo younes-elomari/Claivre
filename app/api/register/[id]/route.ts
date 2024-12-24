@@ -5,16 +5,16 @@ import { changePasswordSchema } from "@/app/validationSchemas";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOptions";
 
-export async function PATCH(
+export const PATCH = async (
   request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+  { params }: { params: Promise<{ id: string }> }
+) => {
   const session = await getServerSession(authOptions);
   if (!session || !session.user?.email)
     return NextResponse.json({}, { status: 401 });
 
   const user = await prisma.user.findUnique({
-    where: { id: params.id },
+    where: { id: (await params).id },
   });
   if (!user) return NextResponse.json({}, { status: 404 });
 

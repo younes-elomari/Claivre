@@ -14,15 +14,14 @@ import { getAccountOperations } from "@/app/_utils/accountOperation/getAccountOp
 import { getPaginatedAccountOperations } from "@/app/_utils/accountOperation/getPaginatedAccountOperations";
 import { getAccountOperationsCount } from "@/app/_utils/accountOperation/getAccountOperationsCount";
 import { getEndMounth, getStartMounth } from "@/app/_utils/getMounth";
-import prisma from "@/prisma/client";
 
 interface Props {
   params: { id: string };
-  searchParams: { page: string; mounth: string };
+  searchParams: Promise<{ page: string; mounth: string }>;
 }
 
 const GeneralAccountDetailsPage = async ({ params, searchParams }: Props) => {
-  const page = parseInt(searchParams.page) || 1;
+  const page = parseInt((await searchParams).page) || 1;
   const pageSize = 10;
 
   const generalAccount = await getGeneralAccount(params.id);
@@ -40,8 +39,8 @@ const GeneralAccountDetailsPage = async ({ params, searchParams }: Props) => {
     .uniq()
     .value();
 
-  const mounth = mounths.includes(parseInt(searchParams.mounth))
-    ? parseInt(searchParams.mounth)
+  const mounth = mounths.includes(parseInt((await searchParams).mounth))
+    ? parseInt((await searchParams).mounth)
     : undefined;
 
   const startOfMounth = getStartMounth(mounth);

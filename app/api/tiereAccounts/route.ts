@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOptions";
 
-export async function GET(request: NextRequest) {
+export const GET = async (request: NextRequest) => {
   const session = await getServerSession(authOptions);
   if (!session || !session.user?.email)
     return NextResponse.json({}, { status: 401 });
@@ -19,9 +19,9 @@ export async function GET(request: NextRequest) {
     orderBy: { name: "asc" },
   });
   return NextResponse.json(tiereAccount);
-}
+};
 
-export async function POST(request: NextRequest) {
+export const POST = async (request: NextRequest) => {
   const session = await getServerSession(authOptions);
   if (!session || !session.user?.email)
     return NextResponse.json({}, { status: 401 });
@@ -78,4 +78,4 @@ export async function POST(request: NextRequest) {
   });
 
   return NextResponse.json(newTiereAccount, { status: 201 });
-}
+};

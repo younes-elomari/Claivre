@@ -1,11 +1,10 @@
 import { Card, Flex, Heading } from "@radix-ui/themes";
 import React from "react";
 import ProductOperationForm from "./ProductOperationForm";
-import prisma from "@/prisma/client";
 import { getProduct } from "@/app/_utils/product/getProduct";
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 const NewProductOperationPage = () => {
@@ -20,7 +19,7 @@ const NewProductOperationPage = () => {
 };
 
 export async function generateMetadata({ params }: Props) {
-  const produit = await getProduct(params.id);
+  const produit = await getProduct((await params).id);
 
   return {
     title: "ajouter une opération pour " + produit?.name,

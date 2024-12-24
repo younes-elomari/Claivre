@@ -20,9 +20,9 @@ import AlertDialog from "./components/AlertDialog";
 export default async function Home({
   searchParams,
 }: {
-  searchParams: { page: string; mounth: string };
+  searchParams: Promise<{ page: string; mounth: string }>;
 }) {
-  const page = parseInt(searchParams.page) || 1;
+  const page = parseInt((await searchParams).page) || 1;
   const pageSize = 10;
 
   const session = await getServerSession(authOptions);
@@ -38,8 +38,8 @@ export default async function Home({
     .uniq()
     .value();
 
-  const mounth = mounths.includes(parseInt(searchParams.mounth))
-    ? parseInt(searchParams.mounth)
+  const mounth = mounths.includes(parseInt((await searchParams).mounth))
+    ? parseInt((await searchParams).mounth)
     : undefined;
 
   const startOfMounth = getStartMounth(mounth);

@@ -2,14 +2,13 @@ import React from "react";
 import { Card, Flex, Heading } from "@radix-ui/themes";
 import AccountOperationForm from "@/app/accountOperations/new/AccountOperationForm";
 import { getGeneralAccount } from "@/app/_utils/generalAccount/getGeneralAccount";
-import prisma from "@/prisma/client";
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 const NewGeneralAccountOperationPage = async ({ params }: Props) => {
-  const generalAccount = await getGeneralAccount(params.id);
+  const generalAccount = await getGeneralAccount((await params).id);
 
   return (
     <Card>
@@ -24,7 +23,7 @@ const NewGeneralAccountOperationPage = async ({ params }: Props) => {
 };
 
 export async function generateMetadata({ params }: Props) {
-  const generalAccount = await getGeneralAccount(params.id);
+  const generalAccount = await getGeneralAccount((await params).id);
 
   return {
     title: "ajouter une opération pour " + generalAccount?.name,

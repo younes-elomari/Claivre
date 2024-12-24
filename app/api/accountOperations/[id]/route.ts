@@ -5,7 +5,7 @@ import authOptions from "@/app/auth/authOptions";
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
   if (!session || !session.user?.email)
@@ -17,7 +17,7 @@ export async function DELETE(
   if (!user) return NextResponse.json({}, { status: 401 });
 
   const accountOperation = await prisma.accountOperation.findUnique({
-    where: { id: parseInt(params.id), userId: user.id },
+    where: { id: parseInt((await params).id), userId: user.id },
   });
 
   if (!accountOperation)

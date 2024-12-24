@@ -10,7 +10,7 @@ const SearchComponent = () => {
   const changeSearchName = (name: string) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", "1");
-    params.set("name", name);
+    params.set("productName", name);
     router.push("?" + params.toString());
   };
 

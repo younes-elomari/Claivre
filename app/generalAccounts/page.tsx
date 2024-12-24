@@ -8,20 +8,20 @@ import { getGeneralAccountsCount } from "../_utils/generalAccount/getGenerallAcc
 import { Metadata } from "next";
 
 interface Props {
-  searchParams: { page: string; name: string };
+  searchParams: Promise<{ page: string; name: string }>;
 }
 
 const GeneralAccountsPage = async ({ searchParams }: Props) => {
-  const page = parseInt(searchParams.page) || 1;
+  const page = parseInt((await searchParams).page) || 1;
   const pageSize = 10;
 
   const paginatedGeneralAccounts = await getPaginatedGeneralAccounts(
     page,
     pageSize,
-    searchParams.name
+    (await searchParams).name
   );
 
-  const generalAccountsCount = await getGeneralAccountsCount(searchParams.name);
+  const generalAccountsCount = await getGeneralAccountsCount((await searchParams).name);
 
   return (
     <Card>

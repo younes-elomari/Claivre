@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOptions";
 
-export async function GET(request: NextResponse) {
+export const GET = async(request: NextResponse) => {
   const session = await getServerSession(authOptions);
   if (!session || !session.user?.email)
     return NextResponse.json({}, { status: 401 });
@@ -21,7 +21,7 @@ export async function GET(request: NextResponse) {
   return NextResponse.json(products);
 }
 
-export async function POST(request: NextRequest) {
+export const POST = async (request: NextRequest) => {
   const session = await getServerSession(authOptions);
   if (!session || !session.user?.email)
     return NextResponse.json({}, { status: 401 });

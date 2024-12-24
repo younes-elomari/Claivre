@@ -1,4 +1,3 @@
-import prisma from "@/prisma/client";
 import { Button, Card, Flex, Heading } from "@radix-ui/themes";
 import React from "react";
 import ProductDetails from "./ProductDetails";
@@ -17,15 +16,15 @@ import { getPaginatedProductOperations } from "@/app/_utils/productOperation/get
 import { getProductOperationCount } from "@/app/_utils/productOperation/getProductOperationCount";
 
 interface Props {
-  params: { id: string };
-  searchParams: { page: string; mounth: string };
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ page: string; mounth: string }>;
 }
 
 const ProductDetailsPage = async ({ params, searchParams }: Props) => {
-  const page = parseInt(searchParams.page) || 1;
+  const page = parseInt((await searchParams).page) || 1;
   const pageSize = 10;
 
-  const product = await getProduct(params.id);
+  const product = await getProduct((await params).id);
 
   if (!product) return null;
 
@@ -36,8 +35,8 @@ const ProductDetailsPage = async ({ params, searchParams }: Props) => {
     .uniq()
     .value();
 
-  const mounth = mounths.includes(parseInt(searchParams.mounth))
-    ? parseInt(searchParams.mounth)
+  const mounth = mounths.includes(parseInt((await searchParams).mounth))
+    ? parseInt((await searchParams).mounth)
     : undefined;
 
   const startOfMounth = getStartMounth(mounth);
@@ -71,12 +70,12 @@ const ProductDetailsPage = async ({ params, searchParams }: Props) => {
           <Heading size="5">{product?.name}</Heading>
           <Button className="flex">
             <IoAddOutline />
-            <Link href={`/products/${params.id}/new`}>Operation</Link>
+            <Link href={`/products/${(await params).id}/new`}>Operation</Link>
           </Button>
         </Flex>
         <ProductDetails product={product} />
         <OperationsMounthSelect
-          url={`/products/${params.id}`}
+          url={`/products/${(await params).id}`}
           mounths={mounths}
         />
         {productOperations.length === 0 ? (
@@ -105,7 +104,7 @@ const ProductDetailsPage = async ({ params, searchParams }: Props) => {
 };
 
 export async function generateMetadata({ params }: Props) {
-  const produit = await getProduct(params.id);
+  const produit = await getProduct((await params).id);
 
   return {
     title: produit?.name,

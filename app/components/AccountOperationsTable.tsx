@@ -24,10 +24,10 @@ const AccountOperationsTable = ({
     <Table.Root>
       <Table.Header>
         <Table.Row>
-          {columns.map((column) => (
+          {columns.map((column, index) => (
             <Table.ColumnHeaderCell
               className="whitespace-nowrap border border-gray-500"
-              key={column.value}
+              key={index}
             >
               {column.label}
             </Table.ColumnHeaderCell>
@@ -49,14 +49,14 @@ const AccountOperationsTable = ({
 };
 
 const columns: { label: string; value?: keyof AccountOperation }[] = [
-  { label: "" },
+  { label: "Afficher" },
   { label: "Date", value: "date" },
   { label: "Libellé", value: "lebelle" },
   { label: "C-Général", value: "generalAccountId" },
   { label: "C-Tier", value: "tiereAccountId" },
   { label: "Débit", value: "debitSold" },
   { label: "Crédit", value: "creditSold" },
-  { label: "" },
+  { label: "Supprimer" },
 ];
 
 export default AccountOperationsTable;

@@ -9,19 +9,21 @@ import { Metadata } from "next";
 const DashboardProductsPage = async ({
   searchParams,
 }: {
-  searchParams: { page: string; name: string };
+  searchParams: Promise<{ page: string; name: string }>;
 }) => {
-  const page = parseInt(searchParams.page) || 1;
+  const page = parseInt((await searchParams).page) || 1;
   const pageSize = 10;
 
   const paginatedProducts = await getPaginatedProducts(
     page,
     pageSize,
-    searchParams.name,
+    (
+      await searchParams
+    ).name,
     "asc"
   );
 
-  const productCount = await getProductsCount(searchParams.name);
+  const productCount = await getProductsCount((await searchParams).name);
 
   return (
     <Card>

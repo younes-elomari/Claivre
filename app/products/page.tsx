@@ -9,21 +9,21 @@ import { getProductsCount } from "../_utils/product/getProductsCount";
 import { Metadata } from "next";
 
 interface Props {
-  searchParams: { page: string; name: string };
+  searchParams: Promise<{ page: string; name: string }>;
 }
 
 const ProductsPage = async ({ searchParams }: Props) => {
-  const page = parseInt(searchParams.page) || 1;
+  const page = parseInt((await searchParams).page) || 1;
   const pageSize = 10;
 
   const paginatedProducts = await getPaginatedProducts(
     page,
     pageSize,
-    searchParams.name,
+    (await searchParams).name,
     "asc"
   );
 
-  const productCount = await getProductsCount(searchParams.name);
+  const productCount = await getProductsCount((await searchParams).name);
 
   return (
     <Card>
